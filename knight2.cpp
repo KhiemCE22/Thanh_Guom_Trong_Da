@@ -189,7 +189,7 @@ bool BaseBag::usePhoenix(){
                 }
         }
         else if (i->itemname=="PhoenixII") {
-            item=new PhoenixI;
+            item=new PhoenixII;
             if (item->canUse(knight)==true) {
                 item->use(knight);
                 count_item--;
@@ -199,7 +199,7 @@ bool BaseBag::usePhoenix(){
 
         }
         else if (i->itemname=="PhoenixIII") {
-            item=new PhoenixI;
+            item=new PhoenixIII;
             if (item->canUse(knight)==true) {
                 item->use(knight);
                 count_item--;
@@ -210,7 +210,7 @@ bool BaseBag::usePhoenix(){
 
         }
         else if (i->itemname=="PhoenixIV") {
-            item=new PhoenixI;
+            item=new PhoenixIV;
             if (item->canUse(knight)==true) {
                 item->use(knight);
                 count_item--;
@@ -397,10 +397,11 @@ bool BaseKnight::fight(BaseOpponent* opponent, int& gilsum, bool &omega, bool &h
     else if (opponent->get_evenid()==10){
         if (omega==true) return true;
         else {
-            omega=true;
+            
             if ( ((level==10) && (hp==maxhp)) || (knightType==DRAGON)){
                 level=10;
                 gil=999;
+                omega=true;
                 return true;
             }
             else {
@@ -420,9 +421,9 @@ bool BaseKnight::fight(BaseOpponent* opponent, int& gilsum, bool &omega, bool &h
     else if (opponent->get_evenid()==11){
         if (hades==true) return true;
         else {
-            hades=true;
             if ( (level==10) || ( (level>=8) && (knightType==PALADIN) ) ){
                 winhades=true;
+                hades=true;
                 return true;
             }
             else {
@@ -447,14 +448,14 @@ bool BaseKnight::fight(BaseOpponent* opponent, int& gilsum, bool &omega, bool &h
         return true;
     }
     else if (opponent->get_evenid()==113){
-        BaseItem* phoenix3= new PhoenixII;
+        BaseItem* phoenix3= new PhoenixIII;
         if(bag->insertFirst(phoenix3)==false){
             item=create_item("PhoenixIII");
         }
         return true;
     }
     else if (opponent->get_evenid()==114){
-        BaseItem* phoenix4= new PhoenixII;
+        BaseItem* phoenix4= new PhoenixIV;
         if(bag->insertFirst(phoenix4)==false){
             item=create_item("PhoenixIV");
         }
@@ -554,7 +555,7 @@ bool ArmyKnights::fight(BaseOpponent* opponent, bool &omega, bool &hades, bool &
                     army[i]->sendgil(gilsum);
                     if(gilsum==0) break;
                 }
-                if (winhades==true) hasShield==true;
+                if (winhades==true) hasShield=true;
                 if (item!=NULL) {
                     for (int i=count_knight-2;i>=0;i--){
                         if(army[i]->sendItem(item)==true){
@@ -573,6 +574,7 @@ bool ArmyKnights::fight(BaseOpponent* opponent, bool &omega, bool &hades, bool &
             else {
                 win=false;
                 count_knight--;
+                break;
             }
         }
     }
@@ -726,9 +728,9 @@ bool ArmyKnights::adventure(Events* events){
         }
         else {
             win=false;
-        }       
+        }   
         this->printInfo();
-        if (win==false) break;
+        if (win==false && count_knight==0) break;
     }
     return win;
 }
